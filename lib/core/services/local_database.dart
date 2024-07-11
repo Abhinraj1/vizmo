@@ -7,7 +7,7 @@ class LocalDatabaseService {
 
   Future<EventsModel?> getData() async {
     final data = box.read('data');
-    return EventsModel.fromJson(data);
+    return data!=null? EventsModel.fromJson(data) : null;
   }
 
   setData({required Map modelData}) async {
