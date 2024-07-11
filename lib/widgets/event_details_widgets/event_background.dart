@@ -24,9 +24,9 @@ class EventDetailsScreenBackground extends StatelessWidget {
         child: GlassContainer(
           margin: EdgeInsets.symmetric(vertical:3.h,horizontal: 4.w),
           borderRadius: BorderRadius.circular(12),
-          color: Colors.orange.shade800.withOpacity(0.6),
+          color: Colors.blue.shade800.withOpacity(0.2),
           borderColor: Colors.white.withOpacity(0.1),
-          blur: 2.0,
+          blur: 5.0,
           borderWidth: 4,
           elevation: 3.0,
           isFrostedGlass: false,

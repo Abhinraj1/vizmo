@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:vizmo/core/cubit/event_details_cubit/event_details_cubit.dart';
 import 'package:vizmo/core/cubit/home_cubit/home_cubit.dart';
 import 'package:vizmo/core/repository/main_repo.dart';
 import 'package:vizmo/presentation/event_details_screen.dart';
@@ -31,10 +32,15 @@ class MyApp extends StatelessWidget {
             create: (BuildContext context) =>
                 HomeCubit(repo: context.read<MainRepo>()),
           ),
+          BlocProvider<EventDetailsCubit>(
+            create: (BuildContext context) =>
+                EventDetailsCubit(),
+          ),
         ],
         child: ResponsiveSizer(builder: (context, orientation, screenType) {
           return GetMaterialApp(
             title: 'Event Calendar',
+            initialRoute: "/",
             getPages: appRoute(),
             theme: ThemeData(
               primarySwatch: Colors.deepOrange,
@@ -52,7 +58,8 @@ class MyApp extends StatelessWidget {
 //1. details screen ui
 //2. store hive and get hive
 //3. condition to check data
-///4. edit event
-///5. save event
-///6. show event in home
-///7. change bg of details
+//4. edit event
+//5. save event
+//5.1 Save button
+//6. show event in home
+//7. change bg of details

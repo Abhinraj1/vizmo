@@ -9,6 +9,7 @@ import 'package:vizmo/core/cubit/home_cubit/home_cubit.dart';
 import 'package:vizmo/core/cubit/home_cubit/home_cubit.dart';
 import 'package:vizmo/utils/get_events_by_date.dart';
 
+import '../core/cubit/event_details_cubit/event_details_cubit.dart';
 import '../core/model/event_model.dart';
 import '../maanger/color_manager.dart';
 import '../maanger/font_manager.dart';
@@ -42,16 +43,15 @@ class _HomeScreenState extends State<HomeScreen> {
       body: AnimatedBackground(
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
-             List<Data> dataList = [];
-            if(state is HomeLoading){
+            List<Data> dataList = [];
+            if (state is HomeLoading) {
               return const Center(child: CircularProgressIndicator());
             }
-            if(state is HomeLoaded){
+            if (state is HomeLoaded) {
               dataList = state.events;
               events = getEventsByDate(dataList);
               final formattedDate = formateDate(_selectedDay);
               eventByDate = events[formattedDate] ?? [];
-
             }
             return Column(
               children: [
@@ -59,13 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   calendarStyle: CalendarStyle(
                     selectedTextStyle: calenderDefaultFont,
                     selectedDecoration: const BoxDecoration(
-                        color: Colors.white,
-                        shape: BoxShape.circle
-                    ),
+                        color: Colors.white, shape: BoxShape.circle),
                     todayDecoration: BoxDecoration(
                         color: appOrange,
-                        borderRadius: BorderRadius.circular(8)
-                    ),
+                        borderRadius: BorderRadius.circular(8)),
                     markerDecoration: const BoxDecoration(
                       color: Colors.white,
                     ),
@@ -74,9 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   eventLoader: (day) {
-                    DateTime formattedDate = DateTime.parse(
-                        DateFormat('yyyy-MM-dd').format(day));
-                   return events[formattedDate] ?? [];
+                    DateTime formattedDate =
+                        DateTime.parse(DateFormat('yyyy-MM-dd').format(day));
+                    return events[formattedDate] ?? [];
                   },
                   selectedDayPredicate: (day) {
                     return isSameDay(_selectedDay, day);
@@ -114,21 +111,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     shrinkWrap: true,
                     itemCount: eventByDate.length,
                     itemBuilder: (context, index) {
-                      print("eventByDate=================${eventByDate.length}");
                       return ListTile(
                         onTap: () {
-                          Get.toNamed("/event_details_screen",
-                              arguments: {
-                                "onSave": (Data editedData) {
-
-                                },
-                                "data": Data()
-                              });
+                          BlocProvider.of<EventDetailsCubit>(context)
+                              .showDetails(id: eventByDate[index].id ?? "");
                         },
-                        title: Text(eventByDate[index].title??"N/A",style: eventTileTitle,),
-                        leading: const Icon(CupertinoIcons.book_circle,color: Colors.white,),
+                        title: Text(
+                          eventByDate[index].title ?? "N/A",
+                          style: eventTileTitle,
+                        ),
+                        leading: const Icon(
+                          CupertinoIcons.book_circle,
+                          color: Colors.white,
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {
+                            BlocProvider.of<HomeCubit>(context)
+                                .deleteData(id:eventByDate[index].id ?? "");
+                          },
+                          icon: const Icon(
+                            CupertinoIcons.delete,
+                            color: Colors.red,
+                          ),
+                        ),
                       );
-                  },),
+                    },
+                  ),
                 )
               ],
             );

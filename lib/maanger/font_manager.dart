@@ -32,3 +32,16 @@ TextStyle eventTileTitle = TextStyle(
     fontWeight: FontWeight.w700,
     fontSize: 2.5.h
 );
+
+
+TextStyle floatingActionButtonTitle = TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.w600,
+    fontSize: 2.h
+);
+
+TextStyle snackBarMessage = TextStyle(
+    color: Colors.black87,
+    fontWeight: FontWeight.w700,
+    fontSize: 2.h
+);
